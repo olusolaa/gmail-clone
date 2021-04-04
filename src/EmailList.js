@@ -46,9 +46,9 @@ function EmailList() {
                 </div>
             </div>
             <div class="emailList_sections">
-                <Section Icon={InboxIcon} title = "primary" color="red" selected/>
-                <Section Icon={PeopleIcon} title = "social" color="#1A73E8"/>
-                <Section Icon={LocalOfferIcon} title = "promotions" color="green"/>
+                <Section Icon={InboxIcon} title = "Primary" color="red" selected/>
+                <Section Icon={PeopleIcon} title = "Social" color="#1A73E8"/>
+                <Section Icon={LocalOfferIcon} title = "Promotions" color="green"/>
             </div>
             <div class="emailList_list">
                 <EmailRow title = "Twitch" subject="Hey fellow streamer!!!"
