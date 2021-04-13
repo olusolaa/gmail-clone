@@ -15,7 +15,7 @@ function App() {
       <div className="app">
         <Header />
 
-        <div class="app_body">
+        <div className="app_body">
           <SideBar />
 
           <Switch>

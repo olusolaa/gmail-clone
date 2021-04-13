@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import "./EmailList.css";
 import {IconButton, Checkbox} from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -13,12 +13,28 @@ import InboxIcon from "@material-ui/icons/Inbox"
 import PeopleIcon from "@material-ui/icons/People"
 import LocalOfferIcon from "@material-ui/icons/LocalOffer"
 import EmailRow from "./EmailRow"
+import {db} from "./firebase"
+
 
 function EmailList() {
+
+    const [emails, setEmails] = useState([])
+
+    useEffect(()=>{
+        db.collection('emails').orderBy('timestamp', 'desc')
+        .onSnapshot(snapshot => setEmails(snapshot.docs
+            .map(doc => (
+                {
+                    id: doc.id, 
+                    data: doc.data()
+                }))))
+                console.log("i am here")
+    }, [])
+
     return (
         <div className="emailList">
-            <div class="emailList_settings">
-                <div class="emailList_settingsLeft">
+            <div className="emailList_settings">
+                <div className="emailList_settingsLeft">
                     <Checkbox />
                     <IconButton>
                         <ArrowDropDownIcon/>
@@ -30,7 +46,7 @@ function EmailList() {
                         <MoreVertIcon />
                     </IconButton>
                 </div>
-                <div class="emailList_settingsRight">
+                <div className="emailList_settingsRight">
                     <IconButton>
                         <ChevronLeftIcon />
                     </IconButton>
@@ -45,18 +61,27 @@ function EmailList() {
                     </IconButton>
                 </div>
             </div>
-            <div class="emailList_sections">
+            <div className="emailList_sections">
                 <Section Icon={InboxIcon} title = "Primary" color="red" selected/>
                 <Section Icon={PeopleIcon} title = "Social" color="#1A73E8"/>
                 <Section Icon={LocalOfferIcon} title = "Promotions" color="green"/>
             </div>
-            <div class="emailList_list">
-                <EmailRow title = "Twitch" subject="Hey fellow streamer!!!"
+            <div className="emailList_list" >
+                {emails.map(({id, data: {to, subject, message, 
+                timestamp}}) => (
+                    <EmailRow
+                    id = {id}
+                    key = {id}
+                    title={to}
+                    subject={subject}
+                    description={message}
+                    time= {new Date(timestamp?.seconds*1000).toUTCString()}
+                    />
+                ))}
+                {/* <EmailRow title = "Twitch" subject="Hey fellow streamer!!!"
                 description = "This is a test" time = "10pm"
-                />
-                <EmailRow title = "Twitch" subject="Hey fellow streamer!!!"
-                description = "This is a test" time = "10pm"
-                />
+                /> */}
+                
             </div>
         </div>
     );
