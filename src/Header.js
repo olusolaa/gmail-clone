@@ -35,7 +35,7 @@ function Header() {
                 <IconButton>
                     <NotificationsIcon />
                 </IconButton>
-                <Avatar />
+                <Avatar src="" />
             </div>        
         </div>
     )
